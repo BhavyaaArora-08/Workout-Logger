@@ -61,11 +61,15 @@ class App {
   #map; // Private instance properties
   #mapEvent;
   #workouts = [];
+  #mapZoomLevel = 13;
 
   constructor() {
     this._getPosition();
+    // Get data from local storage
+    this._getLocalStorage();
     form.addEventListener("submit", this._newWorkout.bind(this));
     inputType.addEventListener("change", this._toggleElevationField.bind(this));
+    containerWorkouts.addEventListener("click", this._moveToPopup.bind(this));
   }
 
   _getPosition() {
@@ -161,6 +165,9 @@ class App {
     // form.style.display = "none";
     form.classList.add("hidden");
     // setTimeout(() => (form.style.display = "grid"), 1000);
+
+    // Set local storage to all workouts
+    this._setLocalStorage();
   }
 
   _renderWorkoutMarker(workout) {
@@ -248,6 +255,10 @@ class App {
         duration: 1,
       },
     });
+
+    console.log(workout);
+
+    workout.click();
   }
 
   _setLocalStorage() {
